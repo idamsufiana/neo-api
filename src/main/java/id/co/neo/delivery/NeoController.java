@@ -29,6 +29,12 @@ public class NeoController extends BaseController{
 
     }
 
+    @RequestMapping(value = "/v1/SaveListClosestAsteroids", method = RequestMethod.GET)
+    public ResponseEntity<?> SaveListClosestAsteroids(@RequestParam(value = "Year") String year) throws URISyntaxException, AziException {
+        return this.success(mainUsecase.saveDataByYears(year));
+
+    }
+
     @RequestMapping(value = "/v1/ListClosestAsteroidsDistance", method = RequestMethod.GET)
     public ResponseEntity<?> ListClosestAsteroidsDistance(@RequestParam(value = "StartDate") String start_date,
                                                           @RequestParam(value = "EndDate") String end_date,

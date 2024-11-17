@@ -27,7 +27,34 @@ public class NeoUsecase {
     @Value("${limit}")
     private Long limit;
 
+    private final String firstYear = "-01-01";
+    private final String endYear = "-12-31";
+
     public Object getData(String starDate, String endDate) throws URISyntaxException, AziException {
+        ResponseEntity<ApiResponse> response = httpService.getNeofeed(starDate, endDate);
+
+        try{
+            ApiResponse apiResponse = response.getBody();
+            List<NeoObject> data = apiResponse.getNearEarthObjects().values()
+                    .stream()
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+
+            List<NeoObject> result = data.stream().sorted(Comparator.comparingDouble( neo ->
+                    Double.parseDouble(neo.getCloseApproachData().get(0).getMissDistance().getKilometers())
+            )).limit(limit).collect(Collectors.toList());
+            return result;
+
+        } catch (Exception e) {
+            throw new AziException(e);
+
+        }
+
+    }
+
+    public Object saveDataByYears(String Year) throws URISyntaxException, AziException {
+        String starDate = Year+firstYear;
+        String endDate = Year+endYear;
         ResponseEntity<ApiResponse> response = httpService.getNeofeed(starDate, endDate);
 
         try{
