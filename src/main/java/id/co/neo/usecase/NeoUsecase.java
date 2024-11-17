@@ -1,8 +1,8 @@
 package id.co.neo.usecase;
 
 import id.co.neo.exception.AziException;
-import id.co.neo.model.ApiResponse;
-import id.co.neo.model.NeoObject;
+import id.co.neo.model.dto.ApiResponse;
+import id.co.neo.model.dto.NeoObject;
 import id.co.neo.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

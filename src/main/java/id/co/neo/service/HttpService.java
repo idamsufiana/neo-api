@@ -1,8 +1,8 @@
 package id.co.neo.service;
 
 import com.squareup.okhttp.HttpUrl;
-import id.co.neo.model.ApiResponse;
-import id.co.neo.model.LookupResponse;
+import id.co.neo.model.dto.ApiResponse;
+import id.co.neo.model.dto.LookupResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
