@@ -48,4 +48,29 @@ public class NeoUsecase {
         }
 
     }
+
+    public Object getDatawithDistance(String starDate, String endDate, Double distance) throws URISyntaxException, AziException {
+        ResponseEntity<ApiResponse> response = httpService.getNeofeed(starDate, endDate);
+
+        try{
+            ApiResponse apiResponse = response.getBody();
+            List<NeoObject> data = apiResponse.getNearEarthObjects().values()
+                    .stream()
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+
+            List<NeoObject> result = data
+                    .stream()
+                    .filter(neo ->
+                    Double.parseDouble(neo.getCloseApproachData().get(0).getMissDistance().getKilometers()) > distance).sorted(Comparator.comparingDouble( neo ->
+                            Double.parseDouble(neo.getCloseApproachData().get(0).getMissDistance().getKilometers())
+                    )).limit(limit).collect(Collectors.toList());
+            return result;
+
+        } catch (Exception e) {
+            throw new AziException(e);
+
+        }
+
+    }
 }
