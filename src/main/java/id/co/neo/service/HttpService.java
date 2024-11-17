@@ -26,9 +26,6 @@ public class HttpService {
     private String neo_Lookup;
 
     @Autowired
-    Properties properties;
-
-    @Autowired
     RestTemplate restTemplate;
 
     public ResponseEntity<ApiResponse> getNeofeed(String startDate, String endDate) throws URISyntaxException {
