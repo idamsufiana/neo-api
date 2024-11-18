@@ -38,14 +38,14 @@ public class NeoController extends BaseController{
     @RequestMapping(value = "/v1/ListClosestAsteroidsDistance", method = RequestMethod.GET)
     public ResponseEntity<?> ListClosestAsteroidsDistance(@RequestParam(value = "StartDate") String start_date,
                                                           @RequestParam(value = "EndDate") String end_date,
-                                                          @RequestParam(value = "EndDate") Double distance  ) throws URISyntaxException, AziException {
+                                                          @RequestParam(value = "Distance") Double distance  ) throws URISyntaxException, AziException {
         return this.success(mainUsecase.getDatawithDistance(start_date, end_date, distance));
 
     }
 
     @RequestMapping(value = "/v2", method = RequestMethod.GET)
     public ResponseEntity<?> getHistoricalSubStatus(@RequestParam(value = "id") String id) throws ParseException, URISyntaxException {
-        return httpService.getNeoLookUp(id);
+        return this.success(httpService.getNeoLookUp(id));
     }
 
 }
