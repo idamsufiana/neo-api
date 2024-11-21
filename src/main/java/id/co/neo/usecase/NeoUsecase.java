@@ -3,6 +3,8 @@ package id.co.neo.usecase;
 import id.co.neo.exception.AziException;
 import id.co.neo.model.dto.ApiResponse;
 import id.co.neo.model.dto.NeoObject;
+import id.co.neo.model.entity.Asteroid;
+import id.co.neo.repository.AsteroidRepository;
 import id.co.neo.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class NeoUsecase {
 
-
     @Autowired
     HttpService httpService;
+
+    @Autowired
+    AsteroidRepository asteroidRepository;
 
     @Value("${limit}")
     private Long limit;
@@ -59,14 +63,17 @@ public class NeoUsecase {
 
         try{
             ApiResponse apiResponse = response.getBody();
-            List<NeoObject> data = apiResponse.getNearEarthObjects().values()
+            List<Asteroid> data = apiResponse.getRealData().values()
                     .stream()
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
 
-            List<NeoObject> result = data.stream().sorted(Comparator.comparingDouble( neo ->
+            List<Asteroid> result = data.stream().sorted(Comparator.comparingDouble(neo ->
                     Double.parseDouble(neo.getCloseApproachData().get(0).getMissDistance().getKilometers())
             )).limit(limit).collect(Collectors.toList());
+            for(int i = 0 ; i < result.size(); i++){
+                asteroidRepository.save(result.get(i));
+            }
             return result;
 
         } catch (Exception e) {

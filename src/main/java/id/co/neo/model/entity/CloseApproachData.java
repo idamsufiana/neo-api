@@ -2,11 +2,12 @@ package id.co.neo.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import id.co.neo.model.dto.MissDistanceDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class CloseApproachData {
 
@@ -28,8 +29,9 @@ public class CloseApproachData {
     @JsonProperty("relative_velocity")
     private RelativeVelocity relativeVelocity;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("miss_distance")
+    @JoinColumn(name = "missDistance_id", referencedColumnName = "id")
     private MissDistance missDistance;
 
     @JsonProperty("orbiting_body")

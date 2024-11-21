@@ -1,6 +1,7 @@
 package id.co.neo.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import id.co.neo.model.entity.Asteroid;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,8 @@ public class ApiResponse {
 
     @JsonProperty("near_earth_objects")
     private Map<String, List<NeoObject>> nearEarthObjects;
+
+    @JsonProperty("near_earth_objects")
+    private Map<String, List<Asteroid>> realData;
 
 }
